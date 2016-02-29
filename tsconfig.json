@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": false,
+    "declaration": false,
+    "sourceMap": true,
+    "target": "es5",
+    "out": "appBuild.js"
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "filesGlob": [
+    "src/**/*.ts"
+  ],
+  "files": [
+    "src/app.ts",
+    "src/example.ts",
+    "src/implementation/config/config.ts",
+    "src/implementation/data/AddressDataRepository.ts",
+    "src/implementation/data/AddressDataRepositoryImpl.ts",
+    "src/implementation/data/UserDataRepository.ts",
+    "src/implementation/data/UserDataRepositoryImpl.ts",
+    "src/implementation/model/AddressModel.ts",
+    "src/implementation/model/UserModel.ts",
+    "src/implementation/service/AddressService.ts",
+    "src/implementation/service/UserService.ts"
+  ],
+  "atom": {
+    "rewriteTsconfig": true
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "typescript-mvc-consumer",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "davste93@gmail.com"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/Davste93/typescript-mvc-consumer",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "^2.1.22"
+  }
+}
