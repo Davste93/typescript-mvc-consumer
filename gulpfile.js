@@ -3,13 +3,19 @@ var tsc = require('gulp-typescript');
 var tslint = require('gulp-tslint');
 var config = require('./gulpfile.config')();
 var sourcemaps = require('gulp-sourcemaps');
-var browsersync = require('browser-sync');
-var superstatic = require('superstatic');
+var browserify = require('browserify');
 var usemin = require("gulp-usemin");
 var uglify = require("gulp-uglify");
-var reload      = browsersync.reload;
-var wiredep = require("wiredep").stream;
+var tsify = require('tsify');
+var rimraf = require("rimraf");
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var jsonServer = require('gulp-json-srv');
 var concat = require('gulp-concat');
+var superstatic = require('superstatic');
+var browsersync = require('browser-sync');
+var walkSync = require('walk-sync');
+
 gulp.task('ts-lint', function(){
   return gulp.src(config.allTs)
     .pipe(tslint())
@@ -18,65 +24,66 @@ gulp.task('ts-lint', function(){
     }));
 });
 
-gulp.task('compile-ts', function(){
+gulp.task('clean', function(cb){
+  rimraf('./build', cb);
+});
+
+gulp.task('compile-ts', ['clean'], function(){
   var sourceTsFiles = [
     config.allTs,
     config.typings
   ];
 
-  var tsResult = gulp
-    .src(sourceTsFiles)
-    .pipe(sourcemaps.init())
-    .pipe(tsc({
-  		module: "amd",
-  		target: "ES5",
-  		declarationFiles: false,
-  		emitError: false,
-  		emitDecoratorMetadata: true,
-      outDir : config.tsOutputPath
-	}));
+  var bundler = browserify({
+    basedir : "src",
+    debug : true})
+    .add("app.ts")
+  //.add("typings/tsd.d.ts")
+  .plugin(tsify);
 
-  return tsResult.js
-    .pipe(concat('jsApp.js'))
-    .pipe(uglify())
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest(config.tsOutputPath))
-    .pipe(reload({stream:true}));
+  return bundler.bundle()
+        .pipe(source("bundle.js"))
+        .pipe(gulp.dest("build"))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(sourcemaps.write({includeContent: false, sourceRoot: 'src'}));
+
 });
 
+gulp.task('watch', function(){
+      gulp.watch([config.allTs], ['ts-lint', 'compile-ts']);
+})
 gulp.task('serve', ['ts-lint', 'compile-ts', 'bower'], function() {
-    gulp.watch([config.allTs], ['ts-lint', 'compile-ts']);
+
 
     browsersync({
-        port: 3000,
+        port: 8085,
         files: ['**/*.js'],
         injectChanges: true,
         logFileChanges: false,
         logLevel: 'silent',
         notify: true,
         reloadDelay: 0,
+        browser: "google-chrome",
         server: {
             baseDir: 'build',
             middleware: superstatic({ debug: false})
         }
     });
-});
 
+    jsonServer.start({
+		data: 'apiMockService/db.json',
+		port: 8086 });
+
+});
 
 
 gulp.task("bower", function () {
-	gulp.src("index.html")
-		.pipe(wiredep())
+  //Bower no longer needed
+	gulp.src("src/index.html")
+	//	.pipe(wiredep())
 		.pipe(gulp.dest("build"));
 });
 
-// gulp.task("minify", function () {
-// 	return gulp.src("build/index.html")
-// 		.pipe(usemin({
-// 		    assetsDir: config.tsOutputPath,
-// 		    js: [uglify(), "concat"]
-// 	}))
-//   .pipe(gulp.dest(config.tsOutputPath));
-// });
 
 gulp.task('default', ['serve']);

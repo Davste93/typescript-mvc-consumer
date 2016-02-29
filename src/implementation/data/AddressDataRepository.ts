@@ -1,6 +1,8 @@
-//
-// import {AddressModel} from "../model/AddressModel";
-// import {DataRepository} from "../../../../src";
-//
-// interface AddressDataRepository extends DataRepository<AddressModel> {}
-// export default AddressDataRepository;
+
+import {AddressModel} from "../model/AddressModel";
+import {DataRepository, List} from "tsmvc";
+
+interface AddressDataRepository extends DataRepository<AddressModel> {
+   getAddresses(userId : string) : Promise<List<AddressModel>>;
+}
+export default AddressDataRepository;

@@ -1,1 +1,2 @@
-/// <reference path="inversify/inversify.d.ts" />
+
+/// <reference path="../node_modules/tsmvc/lib/tsmvc.d.ts"/>
