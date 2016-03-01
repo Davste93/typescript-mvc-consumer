@@ -4,16 +4,17 @@
     "noImplicitAny": false,
     "declaration": false,
     "sourceMap": true,
-    "moduleResolution": "node",
     "target": "es5",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "outDir": "build"
   },
   "exclude": [
     "node_modules"
   ],
   "filesGlob": [
     "src/**/*.ts",
-    "typings/**/*.ts"
+    "typings/main.d.ts",
+    "!node_modules/**/*.ts"
   ],
   "files": [
     "src/app.ts",
@@ -26,7 +27,7 @@
     "src/implementation/model/UserModel.ts",
     "src/implementation/service/AddressService.ts",
     "src/implementation/service/UserService.ts",
-    "typings/tsd.d.ts"
+    "typings/main.d.ts"
   ],
   "atom": {
     "rewriteTsconfig": true

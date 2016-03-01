@@ -1,7 +1,7 @@
 
 import {AddressModel} from "../model/AddressModel";
 import {Config} from "../config/config";
-import {ApiRepository, DefaultApiParser, List, Model} from  "tsmvc";
+import {ApiRepository, List, Model} from  "tsmvc";
 import AddressDataRepository from "./AddressDataRepository";
 
 export default class AddressDataRepositoryImpl extends ApiRepository<AddressModel> implements AddressDataRepository

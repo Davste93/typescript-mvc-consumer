@@ -35,10 +35,12 @@ gulp.task('compile-ts', ['clean'], function(){
   ];
 
   var bundler = browserify({
-    basedir : "src",
+    basedir : "",
     debug : true})
-    .add("app.ts")
-  //.add("typings/tsd.d.ts")
+    // .add("src/app.ts") //TODO: Continue here
+    // .add("typings/main.d.ts")
+    // .add("node_modules/inversify/dist/inversify.js")
+
   .plugin(tsify);
 
   return bundler.bundle()
