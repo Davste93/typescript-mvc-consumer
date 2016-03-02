@@ -4,7 +4,8 @@
     "noImplicitAny": false,
     "declaration": false,
     "sourceMap": true,
-    "target": "es5",
+    "target": "es6",
+    "moduleResolution": "node",
     "experimentalDecorators": true,
     "outDir": "build"
   },

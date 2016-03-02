@@ -35,13 +35,16 @@ gulp.task('compile-ts', ['clean'], function(){
   ];
 
   var bundler = browserify({
-    basedir : "",
-    debug : true})
-    // .add("src/app.ts") //TODO: Continue here
+      entries: ['src/app.ts'],
+      debug: true,
+      extensions: ['.js', '.json', '.ts'],
+      basedir : ""})
+      .require('tsmvc')
+    //.require('pixi.js')
+    //  .add("typings/main.d.ts"
+      .plugin(tsify);
     // .add("typings/main.d.ts")
     // .add("node_modules/inversify/dist/inversify.js")
-
-  .plugin(tsify);
 
   return bundler.bundle()
         .pipe(source("bundle.js"))
@@ -54,7 +57,7 @@ gulp.task('compile-ts', ['clean'], function(){
 
 gulp.task('watch', function(){
       gulp.watch([config.allTs], ['ts-lint', 'compile-ts']);
-})
+});
 gulp.task('serve', ['ts-lint', 'compile-ts', 'bower'], function() {
 
 
